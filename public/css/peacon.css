@@ -1,0 +1,28 @@
+.navbar {
+    background-color: #ed6448;
+    height: 100px;
+}
+.navbar .navbar-brand {
+    color: white;
+}
+.navbar .navbar-nav li a:link,
+.navbar .navbar-nav li a,
+.navbar .navbar-nav li a:visited,
+.navbar .navbar-nav li a:active,
+.navbar .navbar-nav li a:hover {
+    color: white;
+}
+.navbar .navbar-nav li .dropdown-menu a {
+    color: #ed6448;
+}
+.navbar .navbar-nav li.dropdown {
+    position: relative;
+    top: 50px;
+}
+table {
+    width: 100%;
+}
+a.new-cost {
+    margin-top: 40px;
+    float: right;
+}
