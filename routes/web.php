@@ -11,9 +11,13 @@
 |
 */
 
-Route::get('trabajo/prueba', 'WorkController@show_list');
-Route::get('trabajo/prueba/costos/nuevo', 'WorkController@new_cost')->name('new-cost');
-Route::get('/', 'WorkController@show_list');
+Route::get('trabajo', 'WorkController@show_list');
+Route::get('trabajo/costos/nuevo', 'WorkController@new_cost')->name('new-cost');
+Route::get('trabajo/nuevo', 'WorkController@create');
+Route::get('trabajo/modificar/{id}', 'WorkController@edit');
+Route::post('trabajo/store', 'WorkController@store');
+Route::post('trabajo/update/{id}', 'WorkController@update');
+Route::get('trabajo/{id}', 'WorkController@index');
 
 Auth::routes();
 
