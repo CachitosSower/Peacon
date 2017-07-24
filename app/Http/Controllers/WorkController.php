@@ -9,12 +9,17 @@ use App\Work;
 class WorkController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index($id)
     {
         $work = Work::find($id);
         $work->descripcion = $this->ucall($work->descripcion);
         $work->rut = $work->rut . '-' . $this->calc_dv($work->rut);
-        return view('work.details', ['work' => $work]);
+        return view('work.details', ['work' => $this->preprocess($work)]);
     }
 
     public function create()
@@ -34,8 +39,15 @@ class WorkController extends Controller
         $work->descripcion = $request->descripcion;
         $work->empresa = $request->empresa;
         $work->rut = $request->rut;
+        if (!empty($request->activar) && $request->activar == 1) {
+            $work->estado = 1;
+            $fecha = new \DateTime();
+            $work->fecha_inicio = $fecha->format('Y-m-d H:i:s');
+        } else {
+            $work->estado = 0;
+        }
         $work->save();
-        return redirect('trabajo/nuevo')->with('status', '¡Trabajo creado con éxito!');
+        return redirect('trabajos')->with('status', '¡Trabajo creado con éxito!');
     }
 
     public function update(StoreNewWork $request)
@@ -44,6 +56,13 @@ class WorkController extends Controller
         $work->descripcion = $request->descripcion;
         $work->empresa = $request->empresa;
         $work->rut = $request->rut;
+        $work->estado = $request->estado;
+        $fecha = new \DateTime();
+        if ($request->estado == 2 || $request->estado == -1) {
+            $work->fecha_termino = $fecha->format('Y-m-d H:i:s');
+        } else if ($request->estado == 1) {
+            $work->fecha_inicio = $fecha->format('Y-m-d H:i:s');
+        }
         $work->save();
         return redirect('trabajo/'.$request->id)->with('status', '¡Trabajo modificado con éxito!');
     }
@@ -82,6 +101,33 @@ class WorkController extends Controller
         $dv = 11 - $suma % 11;
         $dv = $dv == 11 ? 0 : ($dv == 10 ? "K" : $dv);
         return $dv;
+    }
+
+    private function preprocess($work)
+    {
+        switch ($work->estado) {
+            case -1:
+                $work->estado_string = '<strong style="color:gray">Desechado</strong>. Fue iniciado el <strong>' . $work->fecha_inicio . '</strong>';
+                $work->iniciado = true;
+                $work->terminado = true;
+                break;
+            case 0:
+                $work->estado_string = '<strong style="color:darkgray">Inactivo</strong>';
+                $work->iniciado = false;
+                $work->terminado = false;
+                break;
+            case 1:
+                $work->estado_string = '<strong style="color:#ed6448">Activo</strong> desde el  <strong>' . $work->fecha_inicio . '</strong>';
+                $work->iniciado = true;
+                $work->terminado = false;
+                break;
+            case 2:
+                $work->estado_string = '<strong style="color:green">Finalizado</strong>. Fue iniciado el  <strong>' . $work->fecha_inicio . '</strong>';
+                $work->iniciado = true;
+                $work->terminado = true;
+                break;
+        }
+        return $work;
     }
 
     private function falseData()

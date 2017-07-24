@@ -6,8 +6,8 @@
 
         <div class="row">
             <ol class="breadcrumb">
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Trabajos</a></li>
+                <li><a href="{{url('/')}}">Inicio</a></li>
+                <li><a href="{{url('/trabajos')}}">Trabajos</a></li>
                 <li class="active">Trabajo de prueba</li>
             </ol>
         </div>
@@ -46,6 +46,12 @@
                 <div class="form-group">
                     {{ Form::label('rut', 'RUT') }}
                     {{ Form::text('rut', '', array('class' => 'form-control', 'placeholder' => 'Ej. 76608248-3')) }}
+                </div>
+                <div class="checkbox">
+                    <label>
+                        {{ Form::checkbox('activar', '1', true) }}
+                        Marcar el trabajo como <strong style="color:#ed6448">activo</strong> luego de crearlo
+                    </label>
                 </div>
 
                 {{ Form::submit('Crear trabajo', array('class' => 'btn btn-primary')) }}

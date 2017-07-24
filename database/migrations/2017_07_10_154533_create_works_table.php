@@ -18,6 +18,9 @@ class CreateWorksTable extends Migration
             $table->string('descripcion');
             $table->string('empresa');
             $table->integer('rut');
+            $table->integer('estado');
+            $table->timestamp('fecha_inicio')->nullable();
+            $table->timestamp('fecha_termino')->nullable();
             $table->timestamps();
         });
     }

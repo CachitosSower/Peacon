@@ -47,8 +47,14 @@
                     {{ Form::label('rut', 'RUT') }}
                     {{ Form::text('rut', $work->rut, array('class' => 'form-control', 'placeholder' => 'Ej. 76608248-3')) }}
                 </div>
-
-                {{ Form::submit('Modificar trabajo', array('class' => 'btn btn-primary')) }}
+                <div class="form-group">
+                    {{ Form::label('estado', 'Estado') }}
+                    {!! Form::select('estado', [1 => 'Activo', 0 => 'Inactivo', 2 => 'Finalizado', -1 => 'Desechado'], $work->estado, ['class' => 'form-control']) !!}
+                </div>
+                <div class="pull-right">
+                    <a href="{{url('/trabajo/'.$work->id)}}" role="button" class="btn btn-default ">Volver</a>
+                    {{ Form::submit('Modificar trabajo', array('class' => 'btn btn-primary')) }}
+                </div>
 
                 {{ Form::close() }}
             </div>

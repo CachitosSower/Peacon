@@ -21,8 +21,8 @@
 
         <div class="row">
             <ol class="breadcrumb">
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Trabajos</a></li>
+                <li><a href="{{url('/')}}">Inicio</a></li>
+                <li><a href="{{url('/trabajos')}}">Trabajos</a></li>
                 <li class="active">Trabajo de prueba</li>
             </ol>
         </div>
@@ -31,6 +31,9 @@
             <div class="co-sm-12">
                 <h1>{{$work->descripcion}} <a href="{{url('/trabajo/modificar/'.$work->id)}}" role="button" class="btn btn-warning">Modificar</a> </h1>
                 <h4><strong>{{$work->empresa}}</strong> :: RUT {{$work->rut}}</h4>
+                <hr>
+                <h4>Este trabajo se encuentra {!! $work->estado_string !!}</h4>
+                <h4>Este trabajo {!! $work->terminado? 'fue terminado el  <strong>' . $work->fecha_termino . ' </strong>' : 'se encuentra <strong>en desarrollo</strong>' !!}</h4>
             </div>
         </div>
 

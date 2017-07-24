@@ -11,7 +11,13 @@
 |
 */
 
-Route::get('trabajo', 'WorkController@show_list');
+// INICIO
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index');
+Route::post('/home/filter', 'HomeController@filter');
+
+// TRABAJO
+Route::get('trabajos', 'HomeController@index');
 Route::get('trabajo/costos/nuevo', 'WorkController@new_cost')->name('new-cost');
 Route::get('trabajo/nuevo', 'WorkController@create');
 Route::get('trabajo/modificar/{id}', 'WorkController@edit');
@@ -21,4 +27,4 @@ Route::get('trabajo/{id}', 'WorkController@index');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
