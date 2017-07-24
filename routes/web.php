@@ -30,3 +30,5 @@ Auth::routes();
 
 // COSTO
 
+// DOCUMENTO
+Route::resource('/documento','DocumentoController');
