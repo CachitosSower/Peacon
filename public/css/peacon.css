@@ -43,3 +43,28 @@ a.new-cost {
 .peacon-costos {
     min-height: 150px;
 }
+
+.brand {
+    float: left;
+    color: white;
+    font-size: 24px;
+    line-height: 100px;
+    margin-left: 20px;
+}
+
+.navbar .navbar-nav li.dropdown {
+    top: 0px;
+}
+
+body, html, #app {
+    height: 100%;
+}
+
+.content {
+    min-height: calc(100% - 300px);
+}
+
+.navbar-nav {
+    top: 25px;
+    position: relative;
+}

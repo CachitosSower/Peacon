@@ -32,6 +32,7 @@
                     <a class="navbar-brand" href="{{ url('/') }}">
                         <img src="{{ asset('images/logo_h70.png') }}" alt="YMIR - Peacon">
                     </a>
+                    <div class="brand">|| &nbsp;&nbsp; Plataforma documental Peacon</div>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -44,8 +45,8 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            <li><a href="{{ route('login') }}">Ingresar</a></li>
+                            <li><a href="{{ route('register') }}">Registrarme</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -71,8 +72,21 @@
                 </div>
             </div>
         </nav>
-
+        <div class="content">
         @yield('content')
+        </div>
+        <div class="footer">
+            <div class="container-fluid" style="background-color: #3f3f3f;">
+                <div class="container" style="padding-top: 60px; padding-bottom:60px;">
+                    <div class="col-sm-12">
+                        <div class="row" style="text-align: center; font-size:20px">
+                            <i style="color:#ddd;font-style: normal">Plataforma documental Peacon © 2017</i><br>
+                            <i style="color: #bbb">Sistema diseñado para la empresa YMIR Labs.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Scripts -->

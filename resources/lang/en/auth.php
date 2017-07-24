@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'failed' => 'No se encontraron las credenciales ingresadas.',
+    'throttle' => 'Demasiados intentos de conexión. Por favor reintente en :seconds segundos.',
 
 ];
