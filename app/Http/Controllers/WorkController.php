@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreNewWork;
 use Illuminate\Http\Request;
 use App\Work;
+use Illuminate\Support\Facades\Redirect;
+use app\http\requests\CostoFormRequest;
+use DB;
 
 class WorkController extends Controller
 {
@@ -58,15 +61,9 @@ class WorkController extends Controller
 
     public function new_cost()
     {
-        return view('work.new', ['items' => $this->falseData()]);
+        return view('work.new');
     }
 
-    public function ucall($str)
-    {
-        return preg_replace_callback('/(\w+)(?!=[.?!])/', function($m){
-            return ucwords($m[0]);
-        }, $str);
-    }
 
     public function calc_dv($rut)
     {
@@ -84,38 +81,6 @@ class WorkController extends Controller
         return $dv;
     }
 
-    private function falseData()
-    {
-        $data = [];
 
-        $data1 = new \stdClass();
-        $data1->item = "Servicio 1";
-        $data1->amount = 2;
-        $data1->price = 30000;
-        $data1->discount_percent = 0;
-        $data1->discount = 0;
-        $data1->provider = false;
-        array_push($data, $data1);
-
-        $data1 = new \stdClass();
-        $data1->item = "Proveedores servicio 1";
-        $data1->amount = 3;
-        $data1->price = 10000;
-        $data1->discount_percent = 0;
-        $data1->discount = 0;
-        $data1->provider = true;
-        array_push($data, $data1);
-
-        $data1 = new \stdClass();
-        $data1->item = "Servicio 2 con descuento 10%";
-        $data1->amount = 5;
-        $data1->price = 25000;
-        $data1->discount_percent = 10;
-        $data1->discount = 0;
-        $data1->provider = false;
-        array_push($data, $data1);
-
-        return $data;
-    }
 
 }
