@@ -25,6 +25,8 @@ Route::post('trabajo/store', 'WorkController@store');
 Route::post('trabajo/update/{id}', 'WorkController@update');
 Route::get('trabajo/{id}', 'WorkController@index');
 
+// AUTH
 Auth::routes();
 
+// COSTO
 

@@ -21,7 +21,7 @@ class WorkController extends Controller
     {
         $work = Work::find($id);
         $work->descripcion = $this->ucall($work->descripcion);
-        $work->rut = $work->rut . '-' . $this->calc_dv($work->rut);
+        $work->rut = $this->format_rut($work->rut);
         return view('work.details', ['work' => $this->preprocess($work)]);
     }
 
@@ -33,6 +33,7 @@ class WorkController extends Controller
     public function edit($id)
     {
         $work = Work::find($id);
+        $work->rut = $this->format_rut($work->rut);
         return view('work.edit', ['work' => $work]);
     }
 
@@ -41,7 +42,8 @@ class WorkController extends Controller
         $work = new Work();
         $work->descripcion = $request->descripcion;
         $work->empresa = $request->empresa;
-        $work->rut = $request->rut;
+        $rut = preg_replace('/[^k0-9]/i', '', $request->rut);
+        $work->rut = substr($rut, 0, strlen($rut)-1);
         if (!empty($request->activar) && $request->activar == 1) {
             $work->estado = 1;
             $fecha = new \DateTime();
@@ -58,7 +60,8 @@ class WorkController extends Controller
         $work = Work::find($request->id);
         $work->descripcion = $request->descripcion;
         $work->empresa = $request->empresa;
-        $work->rut = $request->rut;
+        $rut = preg_replace('/[^k0-9]/i', '', $request->rut);
+        $work->rut = substr($rut, 0, strlen($rut)-1);
         $work->estado = $request->estado;
         $fecha = new \DateTime();
         if ($request->estado == 2 || $request->estado == -1) {
@@ -90,20 +93,25 @@ class WorkController extends Controller
         }, $str);
     }
 
-    public function calc_dv($rut)
+    private function calc_dv($numero)
     {
-        while($rut[0] == "0") {
-            $rut = substr($rut, 1);
-        }
-        $factor = 2;
+        $i = 2;
         $suma = 0;
-        for($i = strlen($rut) - 1; $i >= 0; $i--) {
-            $suma += $factor * $rut[$i];
-            $factor = $factor % 7 == 0 ? 2 : $factor + 1;
+        foreach(array_reverse(str_split($numero)) as $v)
+        {
+            if($i==8)
+                $i = 2;
+            $suma += $v * $i;
+            ++$i;
         }
-        $dv = 11 - $suma % 11;
-        $dv = $dv == 11 ? 0 : ($dv == 10 ? "K" : $dv);
-        return $dv;
+        $dvr = 11 - ($suma % 11);
+        if($dvr == 11) $dvr = 0;
+        if($dvr == 10) $dvr = 'K';
+        return $dvr;
+    }
+
+    private function format_rut ($number) {
+        return strrev(join('.', str_split(strrev($number), 3))) . '-' . $this->calc_dv($number);
     }
 
     private function preprocess($work)

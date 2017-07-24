@@ -26,7 +26,7 @@ class StoreNewWork extends FormRequest
         return [
             'descripcion'   => 'required',
             'empresa'       => 'required',
-            'rut'           => 'required|numeric',
+            'rut'           => 'required|is_valid_rut',
         ];
     }
 }
