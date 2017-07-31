@@ -63,7 +63,7 @@
                 {{ Form::open(array('url' => 'home/filter', 'class' => 'form-inline')) }}
                     <div class="form-group">
                         <label for="filtro_cantidad">Mostrar </label>
-                        {!! Form::select('filtro_cantidad', [5 => '5', 10 => '10', 25 => '25', 50 => '50', ], 10, ['class' => 'form-control']) !!}
+                        {!! Form::select('filtro_cantidad', [5 => '5', 10 => '10', 25 => '25', 50 => '50',], 10, ['class' => 'form-control']) !!}
                     </div>
                     <div class="form-group">
                         <label for="filtro_estado"> Con estado </label>

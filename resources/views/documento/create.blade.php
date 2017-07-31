@@ -15,7 +15,7 @@
                     {{ csrf_field() }}
                     <div class="form-group">
                         <label for="titulo">Título</label>
-                        <input type="text" class="form-control" id="titulo" placeholder="titulo documento" name="titulo">
+                        <input type="text" class="form-control" id="titulo" placeholder="titulo documento" name="titulo" >
                     </div>
                     <div class="form-group">
                         <label for="fecha_emision">Fecha emisión del documento</label>
@@ -30,6 +30,7 @@
                         <label for="archivo">Documento</label>
                         <input type="file" class="form-control" id="archivo" placeholder="Subir archivo" name="archivo">
                     </div>
+                    <input type="hidden" name="id_trabajo" value="{{$id_trabajo}}">
                     <input type="submit" class="btn btn-success" value="Añadir">
                 </form>
                 <br><br><br>

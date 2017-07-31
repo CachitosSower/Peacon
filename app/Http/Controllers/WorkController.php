@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreNewWork;
+use App\Pago;
+use App\Documento;
 use Illuminate\Http\Request;
 use App\Work;
 use Illuminate\Support\Facades\Redirect;
@@ -22,7 +24,16 @@ class WorkController extends Controller
         $work = Work::find($id);
         $work->descripcion = $this->ucall($work->descripcion);
         $work->rut = $this->format_rut($work->rut);
-        return view('work.details', ['work' => $this->preprocess($work)]);
+        $date = explode('-', substr($work->fecha_inicio, 0, stripos($work->fecha_inicio, ' ')));
+        $work->fecha_inicio = $date[2].'-'.$date[1].'-'.$date[0];
+
+        $pagos = Pago::where('id_trabajo', '=', $id)->get();
+        $pagos = PagoController::preprocess($pagos);
+
+        $documentos = Documento::where('id_trabajo', '=', $id)->get();
+
+
+        return view('work.details', ['work' => $this->preprocess($work), 'pagos' => $pagos, 'documentos' => $documentos]);
     }
 
     public function create()
@@ -59,10 +70,10 @@ class WorkController extends Controller
     {
         $work = Work::find($request->id);
         $work->descripcion = $request->descripcion;
-        $work->empresa = $request->empresa;
+        //$work->empresa = $request->empresa;
         $rut = preg_replace('/[^k0-9]/i', '', $request->rut);
         $work->rut = substr($rut, 0, strlen($rut)-1);
-        $work->estado = $request->estado;
+        //$work->estado = $request->estado;
         $fecha = new \DateTime();
         if ($request->estado == 2 || $request->estado == -1) {
             $work->fecha_termino = $fecha->format('Y-m-d H:i:s');

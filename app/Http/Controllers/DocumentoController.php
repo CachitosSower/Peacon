@@ -14,9 +14,9 @@ class DocumentoController extends Controller
         return view('documento.index')->with('documentos',$documentos);
     }
 
-    public function create()
+    public function create($id)
     {
-        return view('documento.create');
+        return view('documento.create', ['id_trabajo' => $id]);
     }
 
     public function store(Request $request)
@@ -25,8 +25,11 @@ class DocumentoController extends Controller
 
         $documento = new Documento;
         $documento->titulo = $request->titulo;
+
         $documento->fecha_emision = $request->fecha_emision;
+
         $documento->comentario = $request->comentario;
+        $documento->id_trabajo = $request->id_trabajo;
 
         $archivo = $request->file('archivo');
         $ruta = time().'_'.$archivo->getClientOriginalName();
@@ -35,13 +38,13 @@ class DocumentoController extends Controller
         $documento->archivo = $ruta;
         $documento->save();
 
-        return redirect('/documento/create')->with('mensaje','Documento registrado exitósamente');
+        return redirect('/trabajo/'.$request->id_trabajo)->with('mensaje','Documento registrado exitósamente');
     }
 
     public function show($id)
     {
         $documento = Documento::find($id);
-        return view('documento.show')->with('documento',$documento);
+        return view('documento.show', ['documento'=>$documento,'id_trabajo'=>$documento->id_trabajo]);
     }
 
     public function edit($id)

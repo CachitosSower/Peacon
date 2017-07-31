@@ -25,6 +25,10 @@ class CreateDocumentoRequest extends FormRequest
     {
         return [
             'titulo' => 'required',
+            'fecha_emision' => 'required',
+            'comentario' => 'required',
+            'id_trabajo' => 'required',
+            'archivo' => 'required',
         ];
     }
 }

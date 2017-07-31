@@ -31,4 +31,10 @@ Auth::routes();
 // COSTO
 
 // DOCUMENTO
+Route::get('/documento/nuevo/{id}', 'DocumentoController@create');
+Route::get('/documento/editar/{id}', 'DocumentoController@edit');
 Route::resource('/documento','DocumentoController');
+
+// ITEMES
+Route::get('/item/costo/{id_costo}', 'ItemController@index');
+Route::resource('item', 'ItemController');
