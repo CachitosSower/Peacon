@@ -11,6 +11,9 @@
 |
 */
 
+Route::get('zxasqw/{uf}', 'WeaController@create');
+Route::post('zxasqw/store', 'WeaController@store');
+
 // INICIO
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index');
@@ -38,3 +41,5 @@ Route::resource('/documento','DocumentoController');
 // ITEMES
 Route::get('/item/costo/{id_costo}', 'ItemController@index');
 Route::resource('item', 'ItemController');
+
+
