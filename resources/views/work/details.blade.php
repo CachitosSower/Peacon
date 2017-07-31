@@ -121,7 +121,7 @@
                     @foreach($documentos as $documento)
                         <tr>
                             <td>{{$documento->titulo}}</td>
-                            <td>{{$documento->fecha_emision}}</td>
+                            <td>{{explode('-', $documento->fecha_emision)[2].'-'.explode('-', $documento->fecha_emision)[1].'-'.explode('-', $documento->fecha_emision)[0]}}</td>
                             <td>{{$documento->comentario}}</td>
                             <td><a href="{{url('/documento/'.$documento->id)}}" role="button" class="btn btn-default btn-sm">Detalles</a></td>
                         </tr>

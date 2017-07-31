@@ -38,3 +38,8 @@ Route::resource('/documento','DocumentoController');
 // ITEMES
 Route::get('/item/costo/{id_costo}', 'ItemController@index');
 Route::resource('item', 'ItemController');
+
+//DARIO
+route::get('/index')
+Route::get('producto/{uf},'darioController@create');
+
