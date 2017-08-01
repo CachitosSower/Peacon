@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Costo;
+use App\Http\Requests\StoreCostoRequest;
 use App\Item;
 use Illuminate\Http\Request;
 
@@ -20,6 +21,7 @@ class CostoController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param   int $id_trabajo
      * @return \Illuminate\Http\Response
      */
     public function index($id_trabajo)
@@ -34,22 +36,30 @@ class CostoController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param   int $id_trabajo
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id_trabajo)
     {
-        //
+        return view('costo.create', [
+            'id_trabajo'    => $id_trabajo,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreCostoRequest  $request
+     * @param   int $id_trabajo
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCostoRequest $request, $id_trabajo)
     {
-        //
+        $costo = new Costo();
+        $costo->descripcion = $request->descripcion;
+        $costo->id_trabajo = $id_trabajo;
+        $costo->save();
+        return redirect('trabajo/'.$id_trabajo)->with('status', '¡Se ha agregado una nueva definición de costos con éxito!');
     }
 
     /**
@@ -92,34 +102,45 @@ class CostoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id_trabajo
+     * @param  int  $id_costo
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id_trabajo, $id_costo)
     {
-        //
+        $costo = Costo::find($id_costo);
+        return view('costo.edit', [
+            'id_trabajo'    => $id_trabajo,
+            'costo'         => $costo,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\StoreCostoRequest  $request
+     * @param  int  $id_trabajo
+     * @param  int  $id_costo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreCostoRequest $request, $id_trabajo, $id_costo)
     {
-        //
+        $costo = Costo::find($id_costo);
+        $costo->descripcion = $request->descripcion;
+        $costo->save();
+        return redirect('trabajo/'.$id_trabajo)->with('status', '¡Se modificó la definición de costos con éxito!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id_trabajo
+     * @param  int  $id_costo
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_trabajo, $id_costo)
     {
-        //
+        Costo::destroy($id_costo);
+        return redirect('trabajo/'.$id_trabajo)->with('status', '¡Costo ha sido ELIMINADO con éxito!');
     }
 }

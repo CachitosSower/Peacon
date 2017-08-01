@@ -19,7 +19,13 @@
                                 <td>{{ $costo->id_trabajo }}</td>
                                 <td>{{ $costo->descripcion }}</td>
                                 <td>{{ $costo->created_at }}</td>
-                                <td style="text-align:center"><a href="{{url('/trabajo/'.$costo->id_trabajo.'/costo/'.$costo->id)}}" role="button" class="btn btn-default btn-sm">Detalles</a></td>
+                                <td style="text-align:center">
+                                    {{ Form::open(['url' => '/trabajo/'.$trabajo->id.'/costo/'.$costo->id, 'onsubmit' => "return confirm('¿Seguro que deseas ELIMINAR la definición de costos? Esta acción es irreversible!');"]) }}
+                                    <a href="{{url('/trabajo/'.$costo->id_trabajo.'/costo/'.$costo->id)}}" role="button" class="btn btn-default btn-sm">Detalles</a>
+                                    {{ Form::submit(' X ', ['class' => 'btn btn-danger btn-xs']) }}
+                                    {{ method_field('DELETE') }}
+                                    {{ Form::close() }}
+                                </td>
 
                             </tr>
                         @endforeach

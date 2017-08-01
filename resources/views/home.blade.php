@@ -42,17 +42,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($works as $work)
+                    @foreach($trabajos as $trabajo)
                         <tr>
-                            <td>{!! $work->estado !!}</td>
-                            <td>{{$work->descripcion}}</td>
-                            <td>{{$work->empresa}}</td>
-                            <td>{{$work->created_at}}</td>
-                            <td style="text-align:center">{!! Form::checkbox('DDC_'.$work->id, '1', false, []) !!}</td>
-                            <td style="text-align:center">{!! Form::checkbox('COT'.$work->id, '1', false, []) !!}</td>
-                            <td style="text-align:center">{!! Form::checkbox('DOC'.$work->id, '1', false, []) !!}</td>
-                            <td style="text-align:center">{!! Form::checkbox('PAG'.$work->id, '1', false, []) !!}</td>
-                            <td style="text-align:center"><a href="{{url('/trabajo/'.$work->id)}}" role="button" class="btn btn-default btn-sm">Detalles</a></td>
+                            <td>{!! $trabajo->estado !!}</td>
+                            <td>{{ $trabajo->descripcion }}</td>
+                            <td>{{ $trabajo->empresa }}</td>
+                            <td>{{ $trabajo->created_at }}</td>
+                            <td style="text-align:center">{!! Form::checkbox('DDC_'.$trabajo->id, '1', false, []) !!}</td>
+                            <td style="text-align:center">{!! Form::checkbox('COT'.$trabajo->id, '1', false, []) !!}</td>
+                            <td style="text-align:center">{!! Form::checkbox('DOC'.$trabajo->id, '1', false, []) !!}</td>
+                            <td style="text-align:center">{!! Form::checkbox('PAG'.$trabajo->id, '1', false, []) !!}</td>
+                            <td style="text-align:center"><a href="{{url('/trabajo/'.$trabajo->id)}}" role="button" class="btn btn-default btn-sm">Detalles</a></td>
 
                         </tr>
                     @endforeach
