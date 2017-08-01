@@ -11,8 +11,6 @@
 |
 */
 
-Route::get('zxasqw/{uf}', 'WeaController@create');
-Route::post('zxasqw/store', 'WeaController@store');
 
 // INICIO
 Route::get('/', 'HomeController@index')->name('home');
@@ -20,26 +18,21 @@ Route::get('/home', 'HomeController@index');
 Route::post('/home/filter', 'HomeController@filter');
 
 // TRABAJO
-Route::get('trabajos', 'HomeController@index');
-Route::get('trabajo/costos/nuevo', 'WorkController@new_cost')->name('new-cost');
-Route::get('trabajo/nuevo', 'WorkController@create');
-Route::get('trabajo/modificar/{id}', 'WorkController@edit');
-Route::post('trabajo/store', 'WorkController@store');
-Route::post('trabajo/update/{id}', 'WorkController@update');
-Route::get('trabajo/{id}', 'WorkController@index');
+Route::resource('trabajo', 'TrabajoController');
 
 // AUTH
 Auth::routes();
 
 // COSTO
+Route::resource('trabajo.costo', 'CostoController');
+
+// ITEM
+Route::resource('trabajo.costo.item', 'ItemController');
 
 // DOCUMENTO
 Route::get('/documento/nuevo/{id}', 'DocumentoController@create');
 Route::get('/documento/editar/{id}', 'DocumentoController@edit');
 Route::resource('/documento','DocumentoController');
 
-// ITEMES
-Route::get('/item/costo/{id_costo}', 'ItemController@index');
-Route::resource('item', 'ItemController');
 
 

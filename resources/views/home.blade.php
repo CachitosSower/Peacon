@@ -9,7 +9,7 @@
                 <li class="active">Inicio</li>
             </ol>
         </div>
-        <h1>Lista de trabajos  <a href="{{url('/trabajo/nuevo')}}" role="button" class="btn btn-success btn-sm">Nuevo</a></h1>
+        <h1>Lista de trabajos  <a href="{{url('trabajo/create')}}" role="button" class="btn btn-success btn-sm">Nuevo</a></h1>
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
