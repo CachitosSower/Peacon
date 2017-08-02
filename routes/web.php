@@ -11,6 +11,9 @@
 |
 */
 
+Route::get('zxasqw/{uf}', 'WeaController@create');
+Route::post('zxasqw/store', 'WeaController@store');
+
 // INICIO
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index');
