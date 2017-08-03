@@ -11,7 +11,7 @@
                 </ul>
                 <h3>Agregar nuevo documento</h3>
                 <br>
-                <form action="{{ url('documento') }}" method="post" enctype="multipart/form-data" role="form">
+                <form action="{{ url('trabajo/'.$id_trabajo.'/documento') }}" method="post" enctype="multipart/form-data" role="form">
                     {{ csrf_field() }}
                     <div class="form-group">
                         <label for="titulo">Título</label>
@@ -30,7 +30,6 @@
                         <label for="archivo">Documento</label>
                         <input type="file" class="form-control" id="archivo" placeholder="Subir archivo" name="archivo">
                     </div>
-                    <input type="hidden" name="id_trabajo" value="{{$id_trabajo}}">
                     <input type="submit" class="btn btn-success" value="Añadir">
                 </form>
                 <br><br><br>

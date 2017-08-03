@@ -30,12 +30,9 @@ Route::resource('trabajo.costo', 'CostoController');
 Route::resource('trabajo.costo.item', 'ItemController');
 
 // DOCUMENTO
+Route::resource('trabajo.documento','DocumentoController');
 Route::get('/documento/nuevo/{id}', 'DocumentoController@create');
 Route::get('/documento/editar/{id}', 'DocumentoController@edit');
-Route::resource('/documento','DocumentoController');
+Route::resource('documento','DocumentoController');
 
-
-//DARIO
-route::get('/index')
-Route::get('producto/{uf},'darioController@create');
 

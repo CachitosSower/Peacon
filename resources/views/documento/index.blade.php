@@ -31,7 +31,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                <a href="{!!URL::to('/documento/create') !!}" class="btn btn-success" role="button">Agregar nuevo documento</a>
+                <a href="{!!URL::to('trabajo/'.$id_trabajo.'/documento/create') !!}" class="btn btn-success" role="button">Agregar nuevo documento</a>
             </div>
         </div>
     </div>
