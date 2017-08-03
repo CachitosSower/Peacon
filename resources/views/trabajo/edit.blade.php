@@ -6,15 +6,14 @@
 
         <div class="row">
             <ol class="breadcrumb">
-                <li><a href="{{url('/')}}">Inicio</a></li>
-                <li><a href="{{url('/trabajos')}}">Trabajos</a></li>
-                <li class="active">Trabajo de prueba</li>
+                <li><a href="{{ url('/') }}">Inicio</a></li>
+                <li class="active">Editar trabajo</li>
             </ol>
         </div>
 
         <div class="row peacon-block">
             <div class="col-sm-8 col-sm-offset-2">
-                <h1>Creando nuevo trabajo</h1>
+                <h1>Modificando trabajo</h1><br>
 
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -31,31 +30,31 @@
                     </div>
                 @endif
 
-                {{ Form::open(array('url' => 'trabajo/store')) }}
+                {{ Form::open(array('url' => 'trabajo/'.$trabajo->id)) }}
 
                 <div class="form-group">
                     {{ Form::label('descripcion', 'Descripción del trabajo') }}
-                    {{ Form::text('descripcion', '', array('class' => 'form-control', 'placeholder' => 'Descripción de la empresa')) }}
+                    {{ Form::text('descripcion', $trabajo->descripcion, array('class' => 'form-control', 'placeholder' => 'Descripción de la empresa')) }}
                 </div>
 
                 <div class="form-group">
                     {{ Form::label('empresa', 'Empresa') }}
-                    {{ Form::text('empresa', '', array('class' => 'form-control', 'placeholder' => 'Nombre de la empresa')) }}
+                    {{ Form::text('empresa', $trabajo->empresa, array('class' => 'form-control', 'placeholder' => 'Nombre de la empresa')) }}
                 </div>
 
                 <div class="form-group">
                     {{ Form::label('rut', 'RUT') }}
-                    {{ Form::text('rut', '', array('class' => 'form-control', 'placeholder' => 'Ej. 76608248-3')) }}
+                    {{ Form::text('rut', $trabajo->rut, array('class' => 'form-control', 'placeholder' => 'Ej. 76608248-3')) }}
                 </div>
-                <div class="checkbox">
-                    <label>
-                        {{ Form::checkbox('activar', '1', true) }}
-                        Marcar el trabajo como <strong style="color:#ed6448">activo</strong> luego de crearlo
-                    </label>
+                <div class="form-group">
+                    {{ Form::label('estado', 'Estado') }}
+                    {!! Form::select('estado', [1 => 'Activo', 0 => 'Inactivo', 2 => 'Finalizado', -1 => 'Desechado'], $trabajo->estado, ['class' => 'form-control']) !!}
                 </div>
-
-                {{ Form::submit('Crear trabajo', array('class' => 'btn btn-primary')) }}
-
+                <div class="pull-right">
+                    <a href="{{url('/trabajo/'.$trabajo->id)}}" role="button" class="btn btn-default ">Volver</a>
+                    {{ Form::submit('Modificar trabajo', array('class' => 'btn btn-primary')) }}
+                </div>
+                {{ method_field('PUT') }}
                 {{ Form::close() }}
             </div>
         </div>

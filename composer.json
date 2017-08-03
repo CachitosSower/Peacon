@@ -22,7 +22,10 @@
         ],
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "files": [
+            "app/PeaconHelper.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

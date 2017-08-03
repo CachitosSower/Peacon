@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Work;
+use App\Trabajo;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,33 +24,33 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $works = Work::orderBy('created_at', 'desc')
+        $trabajos = Trabajo::orderBy('created_at', 'desc')
             ->take(10)
             ->get();
         $filtro_estado = 99;
-        return view('home', ['works' => $this->preprocess($works), 'filtro_estado' => $filtro_estado]);
+        return view('home', ['trabajos' => $this->preprocess($trabajos), 'filtro_estado' => $filtro_estado]);
     }
 
     public function filter(Request $request)
     {
-        if ($request->filtro_estado == 99) $works = Work::orderBy('created_at', 'desc');
-        else $works = Work::where('estado', $request->filtro_estado)->orderBy('empresa', 'desc');
-        $works = $works->take($request->filtro_cantidad)->get();
-        return view('home', ['works' => $this->preprocess($works), 'filtro_estado' => $request->filtro_estado]);
+        if ($request->filtro_estado == 99) $trabajos = Trabajo::orderBy('created_at', 'desc');
+        else $trabajos = Trabajo::where('estado', $request->filtro_estado)->orderBy('empresa', 'desc');
+        $trabajos = $trabajos->take($request->filtro_cantidad)->get();
+        return view('home', ['trabajos' => $this->preprocess($trabajos), 'filtro_estado' => $request->filtro_estado]);
     }
 
-    private function preprocess($works)
+    private function preprocess($trabajos)
     {
-        $filtered_works = [];
-        foreach($works as $work) {
-            switch ($work->estado) {
-                case -1: $work->estado = '<strong style="color:gray">Desechado</strong>'; break;
-                case 0: $work->estado = '<strong style="color:darkgray">Inactivo</strong>'; break;
-                case 1: $work->estado = '<strong style="color:darkorange">Activo</strong>'; break;
-                case 2: $work->estado = '<strong style="color:green">Finalizado</strong>'; break;
+        $trabajos_filtrados = [];
+        foreach($trabajos as $trabajo) {
+            switch ($trabajo->estado) {
+                case -1: $trabajo->estado = '<strong style="color:gray">Desechado</strong>'; break;
+                case 0: $trabajo->estado = '<strong style="color:darkgray">Inactivo</strong>'; break;
+                case 1: $trabajo->estado = '<strong style="color:darkorange">Activo</strong>'; break;
+                case 2: $trabajo->estado = '<strong style="color:green">Finalizado</strong>'; break;
             }
-            array_push($filtered_works, $work);
+            array_push($trabajos_filtrados, $trabajo);
         }
-        return $filtered_works;
+        return $trabajos_filtrados;
     }
 }
