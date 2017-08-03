@@ -128,7 +128,7 @@ class CostoController extends Controller
         $costo = Costo::find($id_costo);
         $costo->descripcion = $request->descripcion;
         $costo->save();
-        return redirect('trabajo/'.$id_trabajo)->with('status', '¡Se modificó la definición de costos con éxito!');
+        return redirect('trabajo/'.$id_trabajo.'/costo/'.$id_costo)->with('status', '¡Se modificó la definición de costos con éxito!');
     }
 
     /**

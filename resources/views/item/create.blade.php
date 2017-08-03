@@ -41,7 +41,7 @@
                     <div class="form-group row">
                         <div class="col-sm-3">
                             {{ Form::label('cantidad', 'Cantidad') }}
-                            {{ Form::number('cantidad', '', ['class' => 'form-control', 'placeholder' => 'N°']) }}
+                            {{ Form::text('cantidad', '', ['class' => 'form-control', 'placeholder' => 'N°']) }}
                         </div>
                     </div>
                     <div class="form-group row">
@@ -49,7 +49,7 @@
                             {{ Form::label('precio', 'Precio') }}
                             <div class="input-group">
                                 <span class="input-group-addon">$</span>
-                                {{ Form::number('precio', '', ['class' => 'form-control', 'placeholder' => 'Precio']) }}
+                                {{ Form::text('precio', '', ['class' => 'form-control', 'placeholder' => 'Precio']) }}
                             </div>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                             {{ Form::label('descuento_bruto', 'Descuento bruto') }}
                             <div class="input-group">
                                 <span class="input-group-addon">$</span>
-                                {{ Form::number('descuento_bruto', '', ['class' => 'form-control', 'placeholder' => 'Descuento']) }}
+                                {{ Form::text('descuento_bruto', '', ['class' => 'form-control', 'placeholder' => 'Descuento']) }}
                             </div>
                         </div>
                     </div>
