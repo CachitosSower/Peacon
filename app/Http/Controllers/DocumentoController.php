@@ -14,12 +14,12 @@ class DocumentoController extends Controller
         return view('documento.index')->with('documentos',$documentos);
     }
 
-    public function create($id)
+    public function create($id_trabajo)
     {
-        return view('documento.create', ['id_trabajo' => $id]);
+        return view('documento.create', ['id_trabajo' => $id_trabajo]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request,$id_trabajo)
     {
 
 
@@ -29,7 +29,7 @@ class DocumentoController extends Controller
         $documento->fecha_emision = $request->fecha_emision;
 
         $documento->comentario = $request->comentario;
-        $documento->id_trabajo = $request->id_trabajo;
+        $documento->id_trabajo = $id_trabajo;
 
         $archivo = $request->file('archivo');
         $ruta = time().'_'.$archivo->getClientOriginalName();
@@ -38,19 +38,25 @@ class DocumentoController extends Controller
         $documento->archivo = $ruta;
         $documento->save();
 
-        return redirect('/trabajo/'.$request->id_trabajo)->with('mensaje','Documento registrado exitósamente');
+        return redirect('/trabajo/'.$id_trabajo)->with('mensaje','Documento registrado exitósamente');
     }
 
-    public function show($id)
+    public function show($id_trabajo,$id_documento)
     {
-        $documento = Documento::find($id);
-        return view('documento.show', ['documento'=>$documento,'id_trabajo'=>$documento->id_trabajo]);
+        $documento = Documento::find($id_documento);
+        return view('documento.show', [
+            'documento'=>$documento,
+            'id_trabajo'=>$id_trabajo
+        ]);
     }
 
-    public function edit($id)
+    public function edit($id_trabajo,$id_documento)
     {
-        $documento = Documento::find($id);
-        return view('documento.edit')->with('documento',$documento);
+        $documento = Documento::find($id_documento);
+        return view('documento.edit', [
+            'documento' => $documento,
+            'id_trabajo'=>$id_trabajo
+        ]);
     }
 
     public function update(Request $request, $id)

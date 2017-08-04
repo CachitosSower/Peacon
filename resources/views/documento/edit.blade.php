@@ -7,7 +7,7 @@
 
                 <h3>Editar documento</h3>
                 <br>
-                {!!Form::model($documento,['route' => ['documento.update',$documento -> id],'method' => 'PUT', 'enctype'=> 'multipart/form-data'])!!}
+                {!!Form::model($documento,['route' => ['trabajo.documento.update',$id_trabajo,$documento -> id],'method' => 'PUT', 'enctype'=> 'multipart/form-data'])!!}
 
                     <div class="form-group">
                         <label for="titulo">Título</label>

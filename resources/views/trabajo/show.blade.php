@@ -83,7 +83,9 @@
                         <td>{{$pago->monto}}</td>
                         <td>{{$pago->fecha}}</td>
                         <td>{{$pago->medio_pago}}</td>
-                        <td><a href="{{url('/pago/'.$pago->id)}}" role="button" class="btn btn-default btn-sm">Detalles</a></td>
+                        <td>
+                            <a href="{{url('/pago/'.$pago->id)}}" role="button" class="btn btn-default btn-sm">Detalles</a>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -91,7 +93,7 @@
         </div>
 
         <div class="row peacon-block">
-            <h1>Documentos subidos <a href="{{url('/documento/nuevo/'.$trabajo->id)}}" role="button" class="btn btn-warning pull-right">Nuevo</a></h1>
+            <h1>Documentos subidos <a href="{{url('trabajo/'.$trabajo->id.'/documento/create')}}" role="button" class="btn btn-warning pull-right">Nuevo</a></h1>
             <table class="work_list table-hover table-bordered">
                 <thead>
                 <tr>
@@ -105,9 +107,11 @@
                 @foreach($documentos as $documento)
                     <tr>
                         <td>{{$documento->titulo}}</td>
-                        <td>{{$documento->fecha_emision}}</td>
+                        <td>{{formatear_fecha ($documento->fecha_emision)}}</td>
                         <td>{{$documento->comentario}}</td>
-                        <td><a href="{{url('/documento/'.$documento->id)}}" role="button" class="btn btn-default btn-sm">Detalles</a></td>
+                        <td>
+                            <a href="{{url('trabajo/'.$trabajo->id.'/documento/'.$documento->id)}}" role="button" class="btn btn-default btn-sm">Detalles</a>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>

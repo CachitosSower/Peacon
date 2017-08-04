@@ -56,7 +56,7 @@ class ItemController extends Controller
         $item->nombre = $request->nombre;
         $item->cantidad = $request->cantidad;
         $item->precio = $request->precio;
-        $item->descuento_bruto = $request->descuento_bruto || 0;
+        $item->descuento_bruto = (empty($item->descuento_bruto) ? 0 : $request->descuento_bruto);
         $item->descuento_porcentual = $request->descuento_porcentual;
         $item->es_proveedor = empty($request->es_proveedor) ? false : true;
         $item->save();
@@ -107,7 +107,7 @@ class ItemController extends Controller
         $item->nombre = $request->nombre;
         $item->cantidad = $request->cantidad;
         $item->precio = $request->precio;
-        $item->descuento_bruto = $request->descuento_bruto || 0;
+        $item->descuento_bruto = (empty($item->descuento_bruto) ? 0 : $request->descuento_bruto);
         $item->descuento_porcentual = $request->descuento_porcentual;
         $item->es_proveedor = empty($request->es_proveedor) ? false : true;
         $item->save();

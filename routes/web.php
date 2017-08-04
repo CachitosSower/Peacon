@@ -30,13 +30,9 @@ Route::resource('trabajo.costo', 'CostoController');
 Route::resource('trabajo.costo.item', 'ItemController');
 
 // DOCUMENTO
+Route::resource('trabajo.documento','DocumentoController');
 Route::get('/documento/nuevo/{id}', 'DocumentoController@create');
 Route::get('/documento/editar/{id}', 'DocumentoController@edit');
-Route::resource('/documento','DocumentoController');
-
-//  PAGO
-Route::post('/pago/editar/{id}', 'PagoController@edit');
-Route::post('/pago/editar/{id}', 'PagoController@edit');
-
+Route::resource('documento','DocumentoController');
 
 
