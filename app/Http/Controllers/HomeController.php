@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Costo;
+use App\Documento;
+use App\Pago;
 use App\Trabajo;
 use Illuminate\Http\Request;
 
@@ -28,7 +31,10 @@ class HomeController extends Controller
             ->take(10)
             ->get();
         $filtro_estado = 99;
-        return view('home', ['trabajos' => $this->preprocess($trabajos), 'filtro_estado' => $filtro_estado]);
+        return view('home', [
+            'trabajos' => $this->preprocess($trabajos),
+            'filtro_estado' => $filtro_estado
+        ]);
     }
 
     public function filter(Request $request)
@@ -37,6 +43,16 @@ class HomeController extends Controller
         else $trabajos = Trabajo::where('estado', $request->filtro_estado)->orderBy('empresa', 'desc');
         $trabajos = $trabajos->take($request->filtro_cantidad)->get();
         return view('home', ['trabajos' => $this->preprocess($trabajos), 'filtro_estado' => $request->filtro_estado]);
+    }
+
+    private function tiene_definido ($trabajo)
+    {
+        return [
+            !count(Costo::where('id_trabajo', $trabajo->id)->get()) == 0,
+            false,
+            !count(Documento::where('id_trabajo', $trabajo->id)->get()) == 0,
+            !count(Pago::where('id_trabajo', $trabajo->id)->get()) == 0,
+        ];
     }
 
     private function preprocess($trabajos)
@@ -49,6 +65,7 @@ class HomeController extends Controller
                 case 1: $trabajo->estado = '<strong style="color:darkorange">Activo</strong>'; break;
                 case 2: $trabajo->estado = '<strong style="color:green">Finalizado</strong>'; break;
             }
+            $trabajo->tiene_definido = $this->tiene_definido($trabajo);
             array_push($trabajos_filtrados, $trabajo);
         }
         return $trabajos_filtrados;

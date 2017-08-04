@@ -51,9 +51,9 @@
                         {{ Form::checkbox('activar', '1', true) }}
                         Marcar el trabajo como <strong style="color:#ed6448">activo</strong> luego de crearlo
                     </label>
-                </div>
-
-                {{ Form::submit('Crear trabajo', array('class' => 'btn btn-primary')) }}
+                </div><br>
+                <a href="{{url('/')}}" role="button" class="btn btn-default"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;Volver</a>
+                {{ Form::submit('Crear trabajo', array('class' => 'btn btn-primary margin-15-left')) }}
 
                 {{ Form::close() }}
             </div>

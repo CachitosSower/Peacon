@@ -11,7 +11,10 @@
                     <li class="active">Detalles de costo</li>
                 </ol>
             </div>
-            <h1>Detalle de costos  <a href="{{url('/trabajo/'.$costo->id_trabajo.'/costo/'.$costo->id.'/edit')}}" role="button" class="btn btn-success btn-sm pull-right">Modificar</a></h1>
+            <h1>Detalle de costos
+                <a href="{{url('/trabajo/'.$costo->id_trabajo.'/costo/'.$costo->id.'/edit')}}" role="button" class="btn btn-primary btn-sm pull-right margin-15-left">Modificar</a>
+                <a href="{{url('/trabajo/'.$costo->id_trabajo)}}" role="button" class="btn btn-default btn-sm pull-right"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;Volver</a>
+            </h1>
             <h2><strong>{{ $costo->descripcion }}</strong></h2><br>
             @if ($errors->any())
                 <div class="alert alert-danger">
@@ -29,9 +32,6 @@
             @endif
 
             <div class="row peacon-block">
-                <div class="col-sm-12">
-                    <a href="{{ url('trabajo/'.$id_trabajo.'/costo/'.$costo->id.'/item/create') }}" role="button" class="btn btn-success btn-sm pull-right">Agregar item</a>
-                </div>
                 <div class="col-sm-12">
                     <table class="table-bordered table-hover">
                         <thead>
@@ -51,32 +51,40 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($itemes as $item)
+                        @if (count($itemes) > 0)
+                            @foreach($itemes as $item)
+                                <tr>
+                                    <td>{{ Form::checkbox('proveedor', '', $item->es_proveedor, ['disabled']) }}</td>
+                                    <td>{{ $item->nombre }}</td>
+                                    <td>{{ $item->cantidad }}</td>
+                                    <td>{{ formatear_dinero($item->costo) }}</td>
+                                    <td>{{ formatear_dinero($item->precio) }}</td>
+                                    <td>{{ $item->descuento_porcentual }}</td>
+                                    <td>{{ formatear_dinero($item->descuento_bruto) }}</td>
+                                    <td>{{ formatear_dinero($item->total) }}</td>
+                                    <td>{{ formatear_dinero($item->iva) }}</td>
+                                    <td><strong>{{ formatear_dinero($item->bruto) }}</strong></td>
+                                    <td style="text-align:center">
+                                        {{ Form::open(['url' => '/trabajo/'.$costo->id_trabajo.'/costo/'.$costo->id.'/item/'.$item->id, 'onsubmit' => "return confirm('¿Seguro que deseas eliminar el item de la definición de costos? Esta acción es IRREVERSIBLE!');"]) }}
+                                        <a href="{{url('/trabajo/'.$costo->id_trabajo.'/costo/'.$costo->id.'/item/'.$item->id.'/edit')}}" role="button" class="btn btn-default btn-sm"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
+                                        <button style="color:#a01500;" type="submit" class="btn btn-default btn-sm"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></button>
+                                        {{ method_field('DELETE') }}
+                                        {{ Form::close() }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
                             <tr>
-                                <td>{{ Form::checkbox('proveedor', '', $item->es_proveedor, ['disabled']) }}</td>
-                                <td>{{ $item->nombre }}</td>
-                                <td>{{ $item->cantidad }}</td>
-                                <td>{{ formatear_dinero($item->costo) }}</td>
-                                <td>{{ formatear_dinero($item->precio) }}</td>
-                                <td>{{ $item->descuento_porcentual }}</td>
-                                <td>{{ formatear_dinero($item->descuento_bruto) }}</td>
-                                <td>{{ formatear_dinero($item->total) }}</td>
-                                <td>{{ formatear_dinero($item->iva) }}</td>
-                                <td><strong>{{ formatear_dinero($item->bruto) }}</strong></td>
-
-                                <td style="text-align:center">
-                                    {{ Form::open(['url' => '/trabajo/'.$costo->id_trabajo.'/costo/'.$costo->id.'/item/'.$item->id, 'onsubmit' => "return confirm('¿Seguro que deseas eliminar el archivo? Esta acción es irreversible!');"]) }}
-                                    <a href="{{url('/trabajo/'.$costo->id_trabajo.'/costo/'.$costo->id.'/item/'.$item->id.'/edit')}}" role="button" class="btn btn-default btn-xs">Modificar</a>
-                                    {{ Form::submit(' X ', ['class' => 'btn btn-danger btn-xs']) }}
-                                    {{ method_field('DELETE') }}
-                                    {{ Form::close() }}
-                                </td>
-
+                                <td></td>
+                                <td><i>No se encontraron itemes registrados para esta definición de costos</i>.</td>
+                                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                             </tr>
-                        @endforeach
+                        @endif
                         </tbody>
-                    </table>
-
+                    </table><br>
+                    <div class="col-sm-12">
+                        <a href="{{ url('trabajo/'.$id_trabajo.'/costo/'.$costo->id.'/item/create') }}" role="button" class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Agregar item</a>
+                    </div>
                 </div>
             </div>
 

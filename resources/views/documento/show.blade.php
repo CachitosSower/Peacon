@@ -5,7 +5,10 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
 
-                <h3>Documento {{$documento->titulo}} <a href="{{url('trabajo/'.$id_trabajo.'/documento/'.$documento->id.'/edit')}}" role="button" class="btn btn-warning">Modificar</a></h3>
+                <h3>Documento {{$documento->titulo}}
+                    <a href="{{url('trabajo/'.$id_trabajo.'/documento/'.$documento->id.'/edit')}}" role="button" class="btn btn-primary margin-15-left pull-right">Modificar</a>
+                    <a href="{{url('trabajo/'.$id_trabajo)}}" role="button" class="btn btn-default pull-right"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;Volver</a>
+                </h3>
                 <br>
                 <form action="{{ url('documento') }}" method="post" enctype="multipart/form-data" role="form">
                     {{ csrf_field() }}

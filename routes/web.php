@@ -12,24 +12,21 @@
 */
 
 
+
 // INICIO
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index');
 Route::post('/home/filter', 'HomeController@filter');
 
-// TRABAJO
-Route::resource('trabajo', 'TrabajoController');
+Auth::routes();                                                                         // Autenticación
+Route::resource('trabajo', 'TrabajoController');                        // Trabajo
+Route::resource('trabajo.costo', 'CostoController');                    // Costos
+Route::resource('trabajo.costo.item', 'ItemController');                // Ítemes
+Route::resource('trabajo.costo.cotizacion', 'CotizacionController');    // Cotizaciones
 
-// AUTH
-Auth::routes();
-
-// COSTO
-Route::resource('trabajo.costo', 'CostoController');
-
-// ITEM
-Route::resource('trabajo.costo.item', 'ItemController');
 
 // DOCUMENTO
+Route::get('trabajo/{id_trabajo}/documento/{id_documento}/download', 'DocumentoController@download');
 Route::resource('trabajo.documento','DocumentoController');
 Route::get('/documento/nuevo/{id}', 'DocumentoController@create');
 Route::get('/documento/editar/{id}', 'DocumentoController@edit');

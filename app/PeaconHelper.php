@@ -116,3 +116,15 @@ function formatear_bytes($size, $precision = 2) {
 function formatear_dinero ($number) {
     return '$ ' . strrev(join('.', str_split(strrev($number), 3)));
 }
+
+function formatear_archivo ($archivo)
+{
+    $MAXIMO_TAMANO_ARCHIVO = 30;
+    $archivo_real = substr($archivo, stripos($archivo, '_') + 1);
+    if (strlen($archivo_real) > $MAXIMO_TAMANO_ARCHIVO) {
+        $left = substr($archivo_real, 0, (int) ($MAXIMO_TAMANO_ARCHIVO / 2));
+        $right = substr($archivo_real, strlen($archivo_real) - (int) ($MAXIMO_TAMANO_ARCHIVO / 2) + 3);
+        return $left . '...' . $right;
+    }
+    return $archivo_real;
+}

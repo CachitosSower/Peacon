@@ -9,7 +9,7 @@
                 <li class="active">Inicio</li>
             </ol>
         </div>
-        <h1>Lista de trabajos  <a href="{{url('trabajo/create')}}" role="button" class="btn btn-success btn-sm">Nuevo</a></h1>
+        <h1>Lista de trabajos  <a href="{{url('trabajo/create')}}" role="button" class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Trabajo</a></h1>
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -47,11 +47,11 @@
                             <td>{!! $trabajo->estado !!}</td>
                             <td>{{ $trabajo->descripcion }}</td>
                             <td>{{ $trabajo->empresa }}</td>
-                            <td>{{ $trabajo->created_at }}</td>
-                            <td style="text-align:center">{!! Form::checkbox('DDC_'.$trabajo->id, '1', false, []) !!}</td>
-                            <td style="text-align:center">{!! Form::checkbox('COT'.$trabajo->id, '1', false, []) !!}</td>
-                            <td style="text-align:center">{!! Form::checkbox('DOC'.$trabajo->id, '1', false, []) !!}</td>
-                            <td style="text-align:center">{!! Form::checkbox('PAG'.$trabajo->id, '1', false, []) !!}</td>
+                            <td>{{ formatear_fecha($trabajo->created_at) }}</td>
+                            <td style="text-align:center">{!! Form::checkbox('DDC_'.$trabajo->id, '1', $trabajo->tiene_definido[0], ['disabled']) !!}</td>
+                            <td style="text-align:center">{!! Form::checkbox('COT'.$trabajo->id, '1', $trabajo->tiene_definido[1], ['disabled']) !!}</td>
+                            <td style="text-align:center">{!! Form::checkbox('DOC'.$trabajo->id, '1', $trabajo->tiene_definido[2], ['disabled']) !!}</td>
+                            <td style="text-align:center">{!! Form::checkbox('PAG'.$trabajo->id, '1', $trabajo->tiene_definido[3], ['disabled']) !!}</td>
                             <td style="text-align:center"><a href="{{url('/trabajo/'.$trabajo->id)}}" role="button" class="btn btn-default btn-sm">Detalles</a></td>
 
                         </tr>

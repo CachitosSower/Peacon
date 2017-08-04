@@ -29,8 +29,9 @@
                     <div class="form-group">
                         <label for="archivo">Documento</label>
                         <input type="file" class="form-control" id="archivo" placeholder="Subir archivo" name="archivo">
-                    </div>
-                    <input type="submit" class="btn btn-success" value="Añadir">
+                    </div><br>
+                    <a href="{{url('trabajo/'.$id_trabajo)}}" role="button" class="btn btn-default"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;Volver</a>
+                    <input type="submit" class="btn btn-success margin-15-left" value="Añadir">
                 </form>
                 <br><br><br>
             </div>

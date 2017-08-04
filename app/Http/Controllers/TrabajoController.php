@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Costo;
 use App\Documento;
+use App\Http\Requests\StoreTrabajoRequest;
+use App\Item;
 use App\Pago;
 use App\Trabajo;
 use Illuminate\Http\Request;
@@ -42,10 +44,10 @@ class TrabajoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreTrabajoRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTrabajoRequest $request)
     {
         $trabajo = new Trabajo();
         $trabajo->descripcion = $request->descripcion;
@@ -71,25 +73,31 @@ class TrabajoController extends Controller
      */
     public function show($id)
     {
+        /* TRABAJOS */
         $trabajo = Trabajo::find($id);
         $trabajo->descripcion = ucfirst($trabajo->descripcion);
         $trabajo->rut = formatear_rut($trabajo->rut);
-        $date = explode('-', substr($trabajo->fecha_inicio, 0, stripos($trabajo->fecha_inicio, ' ')));
-        $trabajo->fecha_inicio = $date[2].'-'.$date[1].'-'.$date[0];
 
+        /* PAGOS */
         $pagos = Pago::where('id_trabajo', '=', $id)->get();
         $pagos = PagoController::preprocess($pagos);
 
+        /* COSTOS */
         $costos = Costo::where('id_trabajo', $id)->get();
 
+        /* DOCUMENTOS */
         $documentos = Documento::where('id_trabajo', '=', $id)->get();
+
+        /* COTIZACIONES */
+        $cotizaciones = [];
 
 
         return view('trabajo.show', [
             'trabajo'       => $this->preprocess($trabajo),
             'pagos'         => $pagos,
             'documentos'    => $documentos,
-            'costos'        => $costos
+            'cotizaciones'    => $cotizaciones,
+            'costos'        => $this->agregar_totales($costos),
         ]);
     }
 
@@ -109,11 +117,11 @@ class TrabajoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreTrabajoRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreTrabajoRequest $request, $id)
     {
         $trabajo = Trabajo::find($id);
         $trabajo->descripcion = $request->descripcion;
@@ -142,11 +150,30 @@ class TrabajoController extends Controller
         //
     }
 
+    private function agregar_totales ($costos)
+    {
+        foreach ($costos as $costo) {
+            $total = 0;
+            $itemes = Item::where('id_costo', $costo->id)->get();
+            foreach ($itemes as $item) {
+                $item->precio = (int) ($item->precio * ($item->es_proveedor ? 1 : 1.2));
+                $item->total +=
+                    (int)(($item->precio * $item->cantidad)
+                        * ($item->descuento_porcentual ? (100 - $item->descuento_porcentual) / 100 : 1)
+                        - ($item->descuento_bruto ? $item->descuento_bruto : 0));
+                $iva = (int) ($item->total * 0.19);
+                $total += $item->total + $iva;
+            }
+            $costo->total = $total;
+        }
+        return $costos;
+    }
+
     private function preprocess($work)
     {
         switch ($work->estado) {
             case -1:
-                $work->estado_string = '<strong style="color:gray">Desechado</strong>. Fue iniciado el <strong>' . $work->fecha_inicio . '</strong>';
+                $work->estado_string = '<strong style="color:gray">Desechado</strong>. Fue iniciado el <strong>' . formatear_fecha($work->fecha_inicio) . '</strong>';
                 $work->iniciado = true;
                 $work->terminado = true;
                 break;
@@ -156,12 +183,12 @@ class TrabajoController extends Controller
                 $work->terminado = false;
                 break;
             case 1:
-                $work->estado_string = '<strong style="color:#ed6448">Activo</strong> desde el  <strong>' . $work->fecha_inicio . '</strong>';
+                $work->estado_string = '<strong style="color:#ed6448">Activo</strong> desde el  <strong>' . formatear_fecha($work->fecha_inicio) . '</strong>';
                 $work->iniciado = true;
                 $work->terminado = false;
                 break;
             case 2:
-                $work->estado_string = '<strong style="color:green">Finalizado</strong>. Fue iniciado el  <strong>' . $work->fecha_inicio . '</strong>';
+                $work->estado_string = '<strong style="color:green">Finalizado</strong>. Fue iniciado el  <strong>' . formatear_fecha($work->fecha_inicio) . '</strong>';
                 $work->iniciado = true;
                 $work->terminado = true;
                 break;

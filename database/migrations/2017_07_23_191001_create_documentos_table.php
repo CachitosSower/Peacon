@@ -20,6 +20,7 @@ class CreateDocumentosTable extends Migration
             $table->date('fecha_emision');
             $table->text('comentario');
             $table->string('archivo');
+            $table->integer('peso');
             $table->timestamps();
         });
     }

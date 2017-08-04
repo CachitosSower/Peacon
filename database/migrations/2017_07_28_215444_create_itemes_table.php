@@ -22,6 +22,7 @@ class CreateItemesTable extends Migration
             $table->boolean('es_proveedor');
             $table->integer('descuento_porcentual');
             $table->integer('descuento_bruto');
+            $table->integer('total')->default('0');
             $table->timestamps();
         });
     }

@@ -17,6 +17,7 @@ class CreateCostosTable extends Migration
             $table->increments('id');
             $table->integer('id_trabajo');
             $table->string('descripcion');
+            $table->integer('total')->default('0');
             $table->timestamps();
         });
     }
