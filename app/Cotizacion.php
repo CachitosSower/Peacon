@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cotizacion extends Model
 {
-    private $table = 'cotizaciones';
+    protected $table = 'cotizaciones';
 }

@@ -124,7 +124,6 @@ class ItemController extends Controller
      */
     public function destroy($id_trabajo, $id_costo, $id_item)
     {
-        $item = Item::find($id_item);
         Item::destroy($id_item);
         return redirect('trabajo/'.$id_trabajo.'/costo/'.$id_costo)->with('status', '¡Item ha sido ELIMINADO con éxito!');
     }

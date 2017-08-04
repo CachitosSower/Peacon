@@ -47,12 +47,11 @@
                 <table class="work_list table-hover table-bordered">
                     <thead>
                     <tr>
-                        <th>Sel</th>
-                        <th>Descripción</th>
+                        <th>Costo</th>
                         <th>Contacto</th>
-                        <th>Teléfono</th>
-                        <th>Correo</th>
-                        <th>Valor total</th>
+                        <th>Emisión</th>
+                        <th>Validez</th>
+                        <th>Aprobado por</th>
                         <th>Opciones</th>
                     </tr>
                     </thead>
@@ -60,13 +59,15 @@
                         @if (count($cotizaciones) > 0)
                             @foreach($cotizaciones as $cotizacion)
                                 <tr>
-                                    <td>{{ $cotizacion->monto }}</td>
-                                    <td>{{ formatear_fecha($cotizacion->fecha) }}</td>
-                                    <td>{{ $cotizacion->medio_pago }}</td>
+                                    <td>{{ $cotizacion->descripcion_costo }}</td>
+                                    <td>{{ $cotizacion->nombre }}</td>
+                                    <td>{{ formatear_fecha($cotizacion->fecha_emision) }}</td>
+                                    <td>{{ formatear_fecha($cotizacion->fecha_vencimiento) }}</td>
+                                    <td>{{ $cotizacion->nombre_usuario }}</td>
                                     <td>
-                                        {{ Form::open(['onsubmit' => "return confirm('¿Seguro que deseas eliminar el archivo? Esta acción es IRREVERSIBLE!');"]) }}
-                                        <a href="" role="button" class="btn btn-default btn-sm">Detalles</a>&nbsp;
-                                        <button type="BUTTON" class="btn btn-danger btn-xs"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button>
+                                        {{ Form::open(['url' => route('trabajo.costo.cotizacion.destroy', [$trabajo->id, $cotizacion->id_costo, $cotizacion->id]), 'onsubmit' => "return confirm('¿Seguro que deseas eliminar el archivo? Esta acción es IRREVERSIBLE!');"]) }}
+                                        <a href="{{ route('trabajo.costo.cotizacion.show', [$trabajo->id, $cotizacion->id_costo, $cotizacion->id]) }}" role="button" class="btn btn-default btn-sm">Detalles</a>&nbsp;
+                                        <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button>
                                         {{ method_field('DELETE') }}
                                         {{ Form::close() }}
                                     </td>
@@ -80,7 +81,7 @@
                         @endif
                     </tbody>
                 </table><br>
-                <a href="#" role="button" class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Cotización</a>
+
             </div>
         </div>
 
@@ -104,9 +105,9 @@
                                 <td>{{ formatear_fecha($pago->fecha) }}</td>
                                 <td>{{ $pago->medio_pago }}</td>
                                 <td>
-                                    {{ Form::open(['onsubmit' => "return confirm('¿Seguro que deseas eliminar el archivo? Esta acción es IRREVERSIBLE!');"]) }}
-                                    <a href="" role="button" class="btn btn-default btn-sm">Detalles</a>&nbsp;
-                                    <button type="BUTTON" class="btn btn-danger btn-xs"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button>
+                                    {{ Form::open(['url' => '/trabajo/'.$trabajo->id.'/pago/'.$pago->id, 'onsubmit' => "return confirm('¿Seguro que deseas ELIMINAR el pago seleccionado? Esta acción es irreversible!');"]) }}
+                                    <a href="{{url('trabajo/'.$trabajo->id.'/pago/'.$pago->id.'/edit')}}" role="button" class="btn btn-default btn-sm"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
+                                    <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button>
                                     {{ method_field('DELETE') }}
                                     {{ Form::close() }}
                                 </td>
@@ -120,7 +121,7 @@
                     @endif
                     </tbody>
                 </table><br>
-                <a href="#" role="button" class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Pago</a>
+                <a href="{{url('trabajo/'.$trabajo->id.'/pago/create')}}" role="button" class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Pago</a>
             </div>
         </div>
 

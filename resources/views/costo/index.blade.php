@@ -21,7 +21,11 @@
                                     <td style="text-align:center">
                                         {{ Form::open(['url' => '/trabajo/'.$trabajo->id.'/costo/'.$costo->id, 'onsubmit' => "return confirm('¿Seguro que deseas ELIMINAR la definición de costos? Esta acción es irreversible!');"]) }}
                                         <a href="{{url('/trabajo/'.$costo->id_trabajo.'/costo/'.$costo->id)}}" role="button" class="btn btn-default btn-sm">Detalles</a>
-                                        <a href="{{url('/trabajo/'.$costo->id_trabajo.'/costo/'.$costo->id.'/cotizacion/create')}}" role="button" class="btn btn-primary btn-sm">Cotizar</a>
+                                        @if ($costo->id_cotizacion)
+                                            <button type="button" class="btn btn-primary btn-sm disabled">Cotizar</button>
+                                        @else
+                                            <a href="{{url('/trabajo/'.$costo->id_trabajo.'/costo/'.$costo->id.'/cotizacion/create')}}" role="button" class="btn btn-primary btn-sm">Cotizar</a>
+                                        @endif
                                         <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button>
                                         {{ method_field('DELETE') }}
                                         {{ Form::close() }}

@@ -8,13 +8,16 @@
             <ol class="breadcrumb">
                 <li><a href="{{url('/')}}">Inicio</a></li>
                 <li><a href="{{url('trabajo/'.$id_trabajo)}}">Trabajo</a></li>
-                <li class="active">Nueva cotización</li>
+                <li class="active">Detalles de cotizacion</li>
             </ol>
         </div>
 
         <div class="row peacon-block">
             <div class="col-sm-12">
-                <h1>Creando nueva cotización</h1>
+                <h1>Detalles para la cotización
+                    <a href="{{ route('trabajo.costo.cotizacion.edit', [$id_trabajo, $id_costo, $cotizacion->id]) }}" role="button" class="btn btn-primary btn-sm pull-right margin-15-left">Modificar</a>
+                    <a href="{{url('/trabajo/'.$costo->id_trabajo)}}" role="button" class="btn btn-default btn-sm pull-right"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;Volver</a>
+                </h1>
 
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -96,45 +99,36 @@
                 </div>
                 <hr class="col-sm-12">
 
-                {{ Form::open(['url' => 'trabajo/'.$id_trabajo.'/costo/'.$costo->id.'/cotizacion']) }}
-
                 <div class="form-group col-sm-6">
-                    {{ Form::label('nombre', 'Nombre de contacto') }}
-                    {{ Form::text('nombre', '', ['class' => 'form-control', 'placeholder' => 'Nombre...']) }}
+                    <h5 style="margin-bottom: 0;">Nombre del contacto</h5>
+                    <h3 style="margin-top: 0;">{{ $cotizacion->nombre }}</h3>
                 </div>
                 <div class="form-group col-sm-6">
-                    {{ Form::label('correo', 'Correo de contacto') }}
-                    <div class="input-group">
-                        <span class="input-group-addon">@</span>
-                        {{ Form::text('correo', '', ['class' => 'form-control', 'placeholder' => 'Correo...']) }}
-                    </div>
+                    <h5 style="margin-bottom: 0;">Correo electrónico</h5>
+                    <h3 style="margin-top: 0;">{{ $cotizacion->correo }}</h3>
                 </div>
                 <div class="form-group col-sm-6">
-                    {{ Form::label('telefono', 'Teléfono de contacto') }}
-                    <div class="input-group">
-                        <span class="input-group-addon">+56</span>
-                        {{ Form::text('telefono', '', ['class' => 'form-control', 'placeholder' => 'Teléfono...']) }}
-                    </div>
+                    <h5 style="margin-bottom: 0;">Teléfono de contacto</h5>
+                    <h3 style="margin-top: 0;">{{ $cotizacion->telefono }}</h3>
                 </div>
                 <div class="form-group col-sm-6">
-                    {{ Form::label('id_user', 'Aprobado por') }}
-                    {{ Form::select('id_user', [1=>'Administrador',2=>'Aníbal Llanos'], 1, ['class' => 'form-control', 'placeholder' => 'Correo...']) }}
+                    <h5 style="margin-bottom: 0;">Aprobado por</h5>
+                    <h3 style="margin-top: 0;">{{ $usuario->name }}</h3>
                 </div>
 
                 <div class="form-group col-sm-6">
-                    {{ Form::label('fecha_emision', 'Fecha de emisión') }}
-                    {{ Form::date('fecha_emision', '', ['class' => 'form-control']) }}
+                    <h5 style="margin-bottom: 0;">Válida desde</h5>
+                    <h3 style="margin-top: 0;">{{ formatear_fecha($cotizacion->fecha_emision) }}</h3>
                 </div>
                 <div class="form-group col-sm-6">
-                    {{ Form::label('fecha_vencimiento', 'Fecha de vencimiento') }}
-                    {{ Form::date('fecha_vencimiento', '', ['class' => 'form-control']) }}
+                    <h5 style="margin-bottom: 0;">Válida hasta</h5>
+                    <h3 style="margin-top: 0;">{{ formatear_fecha($cotizacion->fecha_vencimiento) }}</h3>
                 </div>
                 <div class="form-group col-sm-12">
-                    {{ Form::label('comentario', 'Comentario') }}
-                    {{ Form::textarea('comentario', '', ['class' => 'form-control', 'placeholder' => 'Comentario...']) }}
+                    <h5 style="margin-bottom: 0;">Comentario</h5>
+                    <h3 style="margin-top: 0;">{{ $cotizacion->comentario }}</h3>
                 </div>
-                {{ Form::submit('Crear cotización', array('class' => 'btn btn-success')) }}
-                {{ Form::close() }}
+
             </div>
         </div>
 

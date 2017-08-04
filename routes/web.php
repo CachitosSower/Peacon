@@ -20,6 +20,7 @@ Route::post('/home/filter', 'HomeController@filter');
 
 Auth::routes();                                                                         // Autenticación
 Route::resource('trabajo', 'TrabajoController');                        // Trabajo
+Route::resource('trabajo.pago','PagoController');                       // Pagos
 Route::resource('trabajo.costo', 'CostoController');                    // Costos
 Route::resource('trabajo.costo.item', 'ItemController');                // Ítemes
 Route::resource('trabajo.costo.cotizacion', 'CotizacionController');    // Cotizaciones

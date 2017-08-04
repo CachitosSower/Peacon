@@ -22,7 +22,8 @@
  */
 function formatear_fecha ($fecha)
 {
-    $fecha_array = explode('-', explode(' ', $fecha)[0]);
+    if (stripos($fecha, ' ')) $fecha = explode(' ', $fecha)[0];
+    $fecha_array = explode('-', $fecha);
     return $fecha_array[2] . ' de ' . obtener_mes_string($fecha_array[1]) . ' de ' . $fecha_array[0];
 }
 

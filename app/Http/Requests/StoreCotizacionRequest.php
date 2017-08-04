@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePagoRequest extends FormRequest
+class StoreCotizacionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +23,12 @@ class StorePagoRequest extends FormRequest
      */
     public function rules()
     {
-        $fecha_actual = new \DateTime();
         return [
-            'monto'         =>  'required|numeric|min:1',
-            'fecha'         =>  'required|before_or_equal:'.$fecha_actual->format('Y-m-d'),
-            'medio_pago'    =>  'required|in:1,2,3,4',
+            'nombre'            =>  'required',
+            'correo'            =>  'required|email',
+            'telefono'          =>  'nullable|numeric|digits:9',
+            'fecha_emision'     =>  'required',
+            'fecha_vencimiento' =>  'required',
         ];
     }
 }

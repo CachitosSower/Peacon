@@ -2,10 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePagoRequest;
+use App\Pago;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class PagoController extends Controller
 {
+
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -21,20 +34,28 @@ class PagoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id_trabajo)
     {
-        //
+        return view('pago.create',
+            ['id_trabajo' => $id_trabajo]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StorePagoRequest  $request
+     * @param   int $id_trabajo
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePagoRequest $request, $id_trabajo)
     {
-        //
+        $pago = new Pago();
+        $pago->id_trabajo=$id_trabajo;
+        $pago->monto=$request->monto;
+        $pago->medio_pago=$request->medio_pago;
+        $pago->fecha=$request->fecha;
+        $pago->save();
+        return redirect('trabajo/'.$id_trabajo)->with('status', '¡Pago generado con éxito!');
     }
 
     /**
@@ -51,35 +72,47 @@ class PagoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id_trabajo
+     * @param  int  $id_pago
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id_trabajo, $id_pago)
     {
-
+        $pago = Pago::find($id_pago);
+        return view('pago.edit', [
+            'pago' => $pago,
+            'id_trabajo' => $id_trabajo
+        ]);
     }
-
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\StorePagoRequest  $request
+     * @param  int  $id_trabajo
+     * @param  int  $id_pago
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StorePagoRequest $request, $id_trabajo, $id_pago)
     {
-        //
+        $pago = Pago::find($id_pago);
+        $pago->monto=$request->monto;
+        $pago->medio_pago=$request->medio_pago;
+        $pago->fecha=$request->fecha;
+        $pago->save();
+        return redirect('trabajo/'.$id_trabajo)->with('status', '¡Pago editado con éxito!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id_trabajo
+     * @param  int  $id_pago
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_trabajo, $id_pago)
     {
-        //
+        Pago::destroy($id_pago);
+        return redirect('trabajo/'.$id_trabajo)->with('status', '¡El Pago ha sido ELIMINADO con éxito!');
     }
 
     public static function preprocess($pagos)

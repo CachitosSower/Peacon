@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Costo;
+use App\Cotizacion;
 use App\Documento;
 use App\Http\Requests\StoreTrabajoRequest;
 use App\Item;
 use App\Pago;
 use App\Trabajo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TrabajoController extends Controller
 {
@@ -83,13 +85,24 @@ class TrabajoController extends Controller
         $pagos = PagoController::preprocess($pagos);
 
         /* COSTOS */
-        $costos = Costo::where('id_trabajo', $id)->get();
-
+        //$costos = Costo::where('id_trabajo', $id)->get();
+        $costos = DB::table('costos')
+            ->where('costos.id_trabajo', $id)
+            ->leftJoin('cotizaciones', 'costos.id', '=', 'cotizaciones.id_costo')
+            ->select('costos.*', 'cotizaciones.id as id_cotizacion')
+            ->orderby('costos.created_at', 'desc')
+            ->get();
         /* DOCUMENTOS */
         $documentos = Documento::where('id_trabajo', '=', $id)->get();
 
         /* COTIZACIONES */
-        $cotizaciones = [];
+        $cotizaciones = DB::table('cotizaciones')
+            ->where('cotizaciones.id_trabajo', $id)
+            ->join('costos', 'cotizaciones.id_costo', '=', 'costos.id')
+            ->join('users', 'users.id', '=', 'cotizaciones.id_user')
+            ->select('cotizaciones.*', 'costos.id as id_costo', 'costos.descripcion as descripcion_costo', 'users.name as nombre_usuario')
+            ->orderby('cotizaciones.created_at', 'desc')
+            ->get();
 
 
         return view('trabajo.show', [
