@@ -129,3 +129,11 @@ function formatear_archivo ($archivo)
     }
     return $archivo_real;
 }
+
+function formatear_folio ($numero, $largo)
+{
+    while (strlen($numero) < $largo) {
+        $numero = '0' . $numero;
+    }
+    return $numero;
+}

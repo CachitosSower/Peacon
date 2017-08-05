@@ -67,7 +67,9 @@
                                     <td style="text-align:center">
                                         {{ Form::open(['url' => '/trabajo/'.$costo->id_trabajo.'/costo/'.$costo->id.'/item/'.$item->id, 'onsubmit' => "return confirm('¿Seguro que deseas eliminar el item de la definición de costos? Esta acción es IRREVERSIBLE!');"]) }}
                                         <a href="{{url('/trabajo/'.$costo->id_trabajo.'/costo/'.$costo->id.'/item/'.$item->id.'/edit')}}" role="button" class="btn btn-default btn-sm"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
+                                        @if(Auth::id() == 1)
                                         <button style="color:#a01500;" type="submit" class="btn btn-default btn-sm"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></button>
+                                        @endif
                                         {{ method_field('DELETE') }}
                                         {{ Form::close() }}
                                     </td>

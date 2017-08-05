@@ -67,7 +67,10 @@
                                     <td>
                                         {{ Form::open(['url' => route('trabajo.costo.cotizacion.destroy', [$trabajo->id, $cotizacion->id_costo, $cotizacion->id]), 'onsubmit' => "return confirm('¿Seguro que deseas eliminar el archivo? Esta acción es IRREVERSIBLE!');"]) }}
                                         <a href="{{ route('trabajo.costo.cotizacion.show', [$trabajo->id, $cotizacion->id_costo, $cotizacion->id]) }}" role="button" class="btn btn-default btn-sm">Detalles</a>&nbsp;
+                                        <a href="{{ url('generar_pdf/'.$cotizacion->id) }}" role="button" class="btn btn-default btn-sm"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                                        @if(Auth::id() == 1)
                                         <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button>
+                                        @endif
                                         {{ method_field('DELETE') }}
                                         {{ Form::close() }}
                                     </td>
@@ -107,7 +110,9 @@
                                 <td>
                                     {{ Form::open(['url' => '/trabajo/'.$trabajo->id.'/pago/'.$pago->id, 'onsubmit' => "return confirm('¿Seguro que deseas ELIMINAR el pago seleccionado? Esta acción es irreversible!');"]) }}
                                     <a href="{{url('trabajo/'.$trabajo->id.'/pago/'.$pago->id.'/edit')}}" role="button" class="btn btn-default btn-sm"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
+                                    @if(Auth::id() == 1)
                                     <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button>
+                                    @endif
                                     {{ method_field('DELETE') }}
                                     {{ Form::close() }}
                                 </td>
@@ -152,7 +157,9 @@
                                     {{ Form::open(['url' => '/trabajo/'.$trabajo->id.'/documento/'.$documento->id, 'onsubmit' => "return confirm('¿Seguro que deseas eliminar el archivo? Esta acción es IRREVERSIBLE!');"]) }}
                                     <a href="{{url('trabajo/'.$trabajo->id.'/documento/'.$documento->id)}}" role="button" class="btn btn-default btn-sm">Detalles</a>&nbsp;
                                     <a href="{{ url('trabajo/'.$trabajo->id.'/documento/'.$documento->id.'/download') }}" role="button" class="btn btn-sm btn-default"><i class="fa fa-download fa-lg" aria-hidden="true"></i></a>&nbsp;
+                                    @if(Auth::id() == 1)
                                     <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button>
+                                    @endif
                                     {{ method_field('DELETE') }}
                                     {{ Form::close() }}
                                 </td>
@@ -166,6 +173,7 @@
                     @endif
                     </tbody>
                 </table><br>
+
                 <a href="{{url('trabajo/'.$trabajo->id.'/documento/create')}}" role="button" class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Documento</a>
             </div>
         </div>

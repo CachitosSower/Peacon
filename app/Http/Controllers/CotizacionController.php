@@ -8,6 +8,7 @@ use App\Http\Requests\StoreCotizacionRequest;
 use App\Item;
 use App\Pago;
 use App\User;
+use App\Trabajo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -182,4 +183,43 @@ class CotizacionController extends Controller
         Cotizacion::destroy($id_cotizacion);
         return redirect(route('trabajo.show', [$id_trabajo]))->with('status', '¡Cotización  ha sido ELIMINADA con éxito!');
     }
+
+    public function generar_pdf($id)
+    {
+        $cotizacion = Cotizacion::find($id);
+        $usuario = User::find($cotizacion->id_user);
+        $costo = Costo::find($cotizacion->id_costo);
+        $trabajo = Trabajo::find($cotizacion->id_trabajo);
+
+        $neto = 0;
+        $iva = 0;
+        $desc = 0;
+        $itemes = Item::where('id_costo', $cotizacion->id_costo)->get();
+        foreach ($itemes as $item) {
+            $item->costo = $item->precio;
+            $item->precio = (int) ($item->costo * ($item->es_proveedor ? 1 : 1.2));
+            $item->total =
+                (int)(($item->precio * $item->cantidad)
+                    * ($item->descuento_porcentual ? (100 - $item->descuento_porcentual) / 100 : 1)
+                    - ($item->descuento_bruto ? $item->descuento_bruto : 0));
+            $item->descuento = ($item->precio * $item->cantidad) - $item->total;
+            $neto += $item->total;
+            $item->iva = (int) ($item->total * 0.19);
+            $iva += $item->iva;
+            $item->bruto = $item->total + $item->iva;
+        }
+
+        return view('pdf.cotizacion', [
+            'cotizacion'    => $cotizacion,
+            'costo'         => $costo,
+            'usuario'       => $usuario,
+            'trabajo'       => $trabajo,
+            'itemes'        => $itemes,
+            'neto'          => $neto,
+            'iva'           => $iva,
+            'desc'          => $desc,
+            'total'         => ($neto + $iva - $desc),
+        ]);
+    }
+
 }

@@ -21,12 +21,16 @@
                                     <td style="text-align:center">
                                         {{ Form::open(['url' => '/trabajo/'.$trabajo->id.'/costo/'.$costo->id, 'onsubmit' => "return confirm('¿Seguro que deseas ELIMINAR la definición de costos? Esta acción es irreversible!');"]) }}
                                         <a href="{{url('/trabajo/'.$costo->id_trabajo.'/costo/'.$costo->id)}}" role="button" class="btn btn-default btn-sm">Detalles</a>
-                                        @if ($costo->id_cotizacion)
-                                            <button type="button" class="btn btn-primary btn-sm disabled">Cotizar</button>
-                                        @else
-                                            <a href="{{url('/trabajo/'.$costo->id_trabajo.'/costo/'.$costo->id.'/cotizacion/create')}}" role="button" class="btn btn-primary btn-sm">Cotizar</a>
+                                        @if(Auth::id() != 1)
+                                            @if ($costo->id_cotizacion)
+                                                <button type="button" class="btn btn-primary btn-sm disabled">Cotizar</button>
+                                            @else
+                                                <a href="{{url('/trabajo/'.$costo->id_trabajo.'/costo/'.$costo->id.'/cotizacion/create')}}" role="button" class="btn btn-primary btn-sm">Cotizar</a>
+                                            @endif
                                         @endif
+                                        @if(Auth::id() == 1)
                                         <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button>
+                                        @endif
                                         {{ method_field('DELETE') }}
                                         {{ Form::close() }}
                                     </td>
@@ -41,6 +45,8 @@
                         @endif
                         </tbody>
                     </table><br>
+                    @if(Auth::id() != 1)
                     <a href="{{ url('trabajo/'.$trabajo->id.'/costo/create') }}" role="button" class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Costo</a>
+                    @endif
                 </div>
             </div>

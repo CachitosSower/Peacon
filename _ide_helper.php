@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.4.28 on 2017-07-24.
+ * Generated for Laravel 5.4.32 on 2017-08-04.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -3594,7 +3594,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Set the PDO connection.
          *
-         * @param \PDO|null $pdo
+         * @param \PDO|\Closure|null $pdo
          * @return $this 
          * @static 
          */ 
@@ -3607,7 +3607,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Set the PDO connection used for reading.
          *
-         * @param \PDO|null $pdo
+         * @param \PDO|\Closure|null $pdo
          * @return $this 
          * @static 
          */ 
@@ -6521,7 +6521,7 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Returns the client IP address.
+         * Get the client IP address.
          *
          * @return string 
          * @static 
@@ -6532,7 +6532,7 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Returns the client IP addresses.
+         * Get the client IP addresses.
          *
          * @return array 
          * @static 
@@ -6540,6 +6540,17 @@ namespace Illuminate\Support\Facades {
         public static function ips()
         {
             return \Illuminate\Http\Request::ips();
+        }
+        
+        /**
+         * Get the client user agent.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function userAgent()
+        {
+            return \Illuminate\Http\Request::userAgent();
         }
         
         /**
@@ -10041,6 +10052,18 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Get the full path for the file at the given "short" path.
+         *
+         * @param string $path
+         * @return string 
+         * @static 
+         */ 
+        public static function path($path)
+        {
+            return \Illuminate\Filesystem\FilesystemAdapter::path($path);
+        }
+        
+        /**
          * Get the contents of a file.
          *
          * @param string $path
@@ -10233,6 +10256,20 @@ namespace Illuminate\Support\Facades {
         public static function url($path)
         {
             return \Illuminate\Filesystem\FilesystemAdapter::url($path);
+        }
+        
+        /**
+         * Get a temporary URL for the file at the given path.
+         *
+         * @param string $path
+         * @param \DateTimeInterface $expiration
+         * @param array $options
+         * @return string 
+         * @static 
+         */ 
+        public static function temporaryUrl($path, $expiration, $options = array())
+        {
+            return \Illuminate\Filesystem\FilesystemAdapter::temporaryUrl($path, $expiration, $options);
         }
         
         /**
@@ -12554,6 +12591,149 @@ namespace Collective\Html {
  
 }
 
+namespace Barryvdh\DomPDF { 
+
+    class Facade {
+        
+        /**
+         * Get the DomPDF instance
+         *
+         * @return \Barryvdh\DomPDF\Dompdf 
+         * @static 
+         */ 
+        public static function getDomPDF()
+        {
+            return \Barryvdh\DomPDF\PDF::getDomPDF();
+        }
+        
+        /**
+         * Set the paper size (default A4)
+         *
+         * @param string $paper
+         * @param string $orientation
+         * @return $this 
+         * @static 
+         */ 
+        public static function setPaper($paper, $orientation = 'portrait')
+        {
+            return \Barryvdh\DomPDF\PDF::setPaper($paper, $orientation);
+        }
+        
+        /**
+         * Show or hide warnings
+         *
+         * @param bool $warnings
+         * @return $this 
+         * @static 
+         */ 
+        public static function setWarnings($warnings)
+        {
+            return \Barryvdh\DomPDF\PDF::setWarnings($warnings);
+        }
+        
+        /**
+         * Load a HTML string
+         *
+         * @param string $string
+         * @param string $encoding Not used yet
+         * @return static 
+         * @static 
+         */ 
+        public static function loadHTML($string, $encoding = null)
+        {
+            return \Barryvdh\DomPDF\PDF::loadHTML($string, $encoding);
+        }
+        
+        /**
+         * Load a HTML file
+         *
+         * @param string $file
+         * @return static 
+         * @static 
+         */ 
+        public static function loadFile($file)
+        {
+            return \Barryvdh\DomPDF\PDF::loadFile($file);
+        }
+        
+        /**
+         * Load a View and convert to HTML
+         *
+         * @param string $view
+         * @param array $data
+         * @param array $mergeData
+         * @param string $encoding Not used yet
+         * @return static 
+         * @static 
+         */ 
+        public static function loadView($view, $data = array(), $mergeData = array(), $encoding = null)
+        {
+            return \Barryvdh\DomPDF\PDF::loadView($view, $data, $mergeData, $encoding);
+        }
+        
+        /**
+         * Set/Change an option in DomPdf
+         *
+         * @param array $options
+         * @return static 
+         * @static 
+         */ 
+        public static function setOptions($options)
+        {
+            return \Barryvdh\DomPDF\PDF::setOptions($options);
+        }
+        
+        /**
+         * Output the PDF as a string.
+         *
+         * @return string The rendered PDF as string
+         * @static 
+         */ 
+        public static function output()
+        {
+            return \Barryvdh\DomPDF\PDF::output();
+        }
+        
+        /**
+         * Save the PDF to a file
+         *
+         * @param $filename
+         * @return static 
+         * @static 
+         */ 
+        public static function save($filename)
+        {
+            return \Barryvdh\DomPDF\PDF::save($filename);
+        }
+        
+        /**
+         * Make the PDF downloadable by the user
+         *
+         * @param string $filename
+         * @return \Illuminate\Http\Response 
+         * @static 
+         */ 
+        public static function download($filename = 'document.pdf')
+        {
+            return \Barryvdh\DomPDF\PDF::download($filename);
+        }
+        
+        /**
+         * Return a response with the PDF to show in the browser
+         *
+         * @param string $filename
+         * @return \Illuminate\Http\Response 
+         * @static 
+         */ 
+        public static function stream($filename = 'document.pdf')
+        {
+            return \Barryvdh\DomPDF\PDF::stream($filename);
+        }
+         
+    }
+ 
+}
+
 
 namespace  { 
 
@@ -13147,7 +13327,7 @@ namespace  {
              * Execute the query and get the first result.
              *
              * @param array $columns
-             * @return mixed 
+             * @return \Illuminate\Database\Eloquent\Model|static|null 
              * @static 
              */ 
             public static function first($columns = array())
@@ -13548,7 +13728,7 @@ namespace  {
              * Add a raw or where clause to the query.
              *
              * @param string $sql
-             * @param array $bindings
+             * @param mixed $bindings
              * @return \Illuminate\Database\Query\Builder|static 
              * @static 
              */ 
@@ -14621,6 +14801,8 @@ namespace  {
     class Form extends \Collective\Html\FormFacade {}
 
     class Html extends \Collective\Html\HtmlFacade {}
+
+    class PDF extends \Barryvdh\DomPDF\Facade {}
  
 }
 

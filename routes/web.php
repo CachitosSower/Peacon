@@ -15,8 +15,11 @@
 
 // INICIO
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/pdf', 'HomeController@pdf');
 Route::get('/home', 'HomeController@index');
 Route::post('/home/filter', 'HomeController@filter');
+
+Route::get('generar_pdf/{id}', 'CotizacionController@generar_pdf');
 
 Auth::routes();                                                                         // Autenticación
 Route::resource('trabajo', 'TrabajoController');                        // Trabajo

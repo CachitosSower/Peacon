@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Costo;
 use App\Documento;
+use App\Cotizacion;
 use App\Pago;
 use App\Trabajo;
 use Illuminate\Http\Request;
+
 
 class HomeController extends Controller
 {
@@ -49,7 +51,7 @@ class HomeController extends Controller
     {
         return [
             !count(Costo::where('id_trabajo', $trabajo->id)->get()) == 0,
-            false,
+            !count (Cotizacion::where('id_trabajo', $trabajo->id)->get()) == 0,
             !count(Documento::where('id_trabajo', $trabajo->id)->get()) == 0,
             !count(Pago::where('id_trabajo', $trabajo->id)->get()) == 0,
         ];
@@ -69,5 +71,11 @@ class HomeController extends Controller
             array_push($trabajos_filtrados, $trabajo);
         }
         return $trabajos_filtrados;
+    }
+
+    public function pdf()
+    {
+        return view('pdf.cotizacion');
+
     }
 }
